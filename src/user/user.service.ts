@@ -13,9 +13,10 @@ export class UserService {
   ) {}
 
   async showAll(): Promise<UserRO[]> {
-    const users = await this.userRepository.find();
+    const users = await this.userRepository.find({relations: ['ideas']});
     return users.map(user => user.toResponseObject(false));
   }
+
   async login(data: UserDTO): Promise<UserRO> {
     const {username, password} = data;
     const user = await this.userRepository.findOne({where: {username}});
